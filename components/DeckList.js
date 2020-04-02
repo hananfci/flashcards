@@ -6,7 +6,7 @@ import {getData} from '../utils/api'
         const decks =getData();
           return(
             <View>
-            {
+          {/*   {
               Object.keys(decks).map((deck) => {
                 const {title, questions} = decks[deck]
                 return (
@@ -18,7 +18,10 @@ import {getData} from '../utils/api'
               
 
               })
-            }
+            } */}
+             <View >
+                     <Text>test</Text>
+                  </View>
             </View>
         )
       }

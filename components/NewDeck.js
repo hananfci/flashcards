@@ -16,7 +16,7 @@ import {addDeck} from '../actions'
           return(
             <View>
            
-                  <View >
+                  {/* <View >
                      <Text>What's the new  Deck's Name</Text>
                      <TextInput 
                      placeholder="the new  Deck's Name"
@@ -24,8 +24,8 @@ import {addDeck} from '../actions'
                      value= {this.state.text}
                      />
                      <Button titile='submit' onPress={this.submitname} />
-                  </View>
-             
+                  </View> */}
+               <Text>What's the new  Deck's Name</Text>
             </View>
         )
       }

@@ -58,14 +58,9 @@ class Navigator extends Component  {
             fontSize:30,
             backgroundColor: white,
           },
-          labelStyle :{
-            color:gray,
-            fontSize:80,
-          },
-          tabStyle: {
-            backgroundColor: white,
-            fontSize:80,
-          }
+          labelStyle: { fontSize: 40 },
+          tabStyle: { width: 200 },
+          style: { backgroundColor: white },
          
         }} >
           <Tabs.Screen

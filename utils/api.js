@@ -32,21 +32,26 @@ const Data = {
 export const getData= () =>{
     return Data;
 }
-export function getdecks(deck){
+export function getDecks(){
+ // alert("fun database");
     return AsyncStorage.getItem(DECK_STORAGE_KEY)
     .then (results => {
         if (results=== null){
-            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(Data))
-            return Data
+          alert("nooooooo empty");
+          return AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(Data) 
+          ).then(() => Data);
+        
         }
-        else{
+      
             return JSON.parse(results)
-        }
+       
 
     })
 }
-export function savedecks(title){
-    return AsyncStorage.setItem(DECK_STORAGE_KEY,JSON.stringify({
+
+
+export function saveDeckTitle(title){
+    return AsyncStorage.mergeItem(DECK_STORAGE_KEY,JSON.stringify({
 
     [title]:{
     title:title,

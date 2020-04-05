@@ -68,7 +68,6 @@ class Navigator extends Component  {
             component={DeckStack}
            options={{
             tabBarLabel: 'Home',
-            
           }} />
         <Tabs.Screen
          name="New Deck"

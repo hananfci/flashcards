@@ -8,8 +8,8 @@ import {
 function decks (state = {}, action) {
   switch (action.type) {
     case RECEIVE_DECKS :
-      debugger;
-      //alert("index reducer")
+     //debugger;
+    
       return {
         ...state,
         ...action.decks
@@ -31,7 +31,7 @@ function decks (state = {}, action) {
           ...state,
           [deck]:{
             ...state[deck],
-            question : [...state[deck],questions,{question,answer,correctAnswer}]
+            questions : [...state[deck].questions,{question,answer,correctAnswer}]
 
           }
         }

@@ -60,3 +60,13 @@ export function saveDeckTitle(title){
 }))
   
 }
+export function saveCardToDeck(name,card){
+  return AsyncStorage.getItem(DECK_STORAGE_KEY)
+  .then (results =>JSON.parse(results) )
+  .then (results => {
+    results[name].questions.push(card)
+    AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(results)) 
+   
+    return results
+  })
+}

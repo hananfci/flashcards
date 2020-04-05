@@ -1,10 +1,11 @@
 import React from 'react';
-import {  StyleSheet,View, Text,TextInput,Button  } from 'react-native';
+import {  StyleSheet,View, Text,TextInput,Button,TouchableOpacity  } from 'react-native';
 import {savedecks} from '../utils/api'
 import { connect } from 'react-redux'
 import {addDeck} from '../actions'
 import MainStyle from '../styles/MainStyle'
 import {saveDeckTitle}  from '../utils/api'
+import { white,orange }   from '../utils/colors'
 
   class NewDeck extends React.Component{
       state ={
@@ -29,14 +30,32 @@ import {saveDeckTitle}  from '../utils/api'
                      onChangeText ={(deckName) => this.setState({deckName})}
                      value= {this.state.text}
                      />
-                     <Button title='submit' onPress={this.submitname}  style={MainStyle.submit}/>
-                 
+                        <TouchableOpacity style={styles.btnSubmit} onPress={this.submitname}>
+                    <Text style={styles.btnSubmttext}> submit</Text>
+                </TouchableOpacity>
+{/*                      <Button title='submit' onPress={this.submitname}  style={styles.btnSubmttext}/>
+ */}                 
               
             </View>
         )
       }
   }
 
+  const styles= StyleSheet.create({
+    btnSubmttext: {
+        color:white,
+        fontSize:22,
+        textAlign:'center'
+    },
+    btnSubmit: {
+        borderWidth:8.5,
+        borderColor:"#d6d7da",
+        padding:10,
+        backgroundColor:orange,
+        borderRadius:7,
+        overflow:"hidden"
+    }
+  })
   function mapDispatchToProps( dispatch ) {
     return {   
       newDeckName: (prevdecks) => { 

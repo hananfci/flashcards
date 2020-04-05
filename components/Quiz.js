@@ -12,7 +12,7 @@ class Quiz extends React.Component{
       questionnumber:0,  
       showQuestion:false, 
       correct:0,
-      incorrect:0     
+      incorrect:0,   
       }
       this.showanswer=this.showanswer.bind(this); 
       this.submitanswer=this.submitanswer.bind(this); 
@@ -24,30 +24,33 @@ showanswer = ( ) =>{
    }
 }
 submitanswer = (answer) => {
-  const {questionnumber,showQuestion,correct,incorrect}= this.state;
+  debugger;
+  const {questionnumber,showQuestion,correct,incorrect,showresult}= this.state;
+  const questionnumbefor =questionnumber
   const {decks,deckId} = this.props;
   const correctanswer = decks[deckId].questions[questionnumber].correctAnswer.toLowerCase(); 
+ 
+  
+  
   if(answer === correctanswer){
      this.setState({correct:correct+1})
   }
   else{
      this.setState({incorrect:incorrect+1})
   }
-  this.setState({questionnumber :questionnumber + 1, showQuestion:false})
-  console.log("question lengh",decks[deckId].questions.length)
-  console.log("questionnumber",questionnumber)
  
+  this.setState({questionnumber : questionnumbefor + 1})
+  this.setState({ showQuestion:false})
+
 }
   render(){
-
+ debugger;
     const {decks,deckId} = this.props
     const {questionnumber,showQuestion,correct,incorrect}= this.state
     const currentquestionnumber = questionnumber + 1
-    console.log("deckId",deckId)
-    console.log("quetions",decks[deckId].questions[questionnumber].question)
-    
+   
     if(questionnumber === decks[deckId].questions.length){
-      alert("finish")
+     
       return (
         <View>
           <View>
@@ -68,7 +71,12 @@ submitanswer = (answer) => {
           <View style={styles.card} >
               <Text style={styles.questionNumber}>{currentquestionnumber }/ {decks[deckId].questions.length}</Text>
               {!showQuestion? 
-              <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].question}</Text>:
+              <View>
+              <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].question}</Text>
+              <Text>questionnumber: {questionnumber}</Text>
+              <Text>showresult: {showresult}</Text>
+              </View>
+              :
               <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].answer}</Text>
               }
                 {!showQuestion? 

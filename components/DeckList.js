@@ -21,38 +21,24 @@ import { orange, white } from '../utils/colors';
           return(
             <View style={styles.cardContainer}>
       <FlatList
-              data= {decks}
-              renderItem= {({deck}) => (
+              data = {decks}
+              renderItem= {({item}) => (
                         <View  style={styles.card}>
                         <TouchableOpacity  onPress={() =>
                         
                           this.props.navigation.navigate('DeckDetails', {
-                            deckId: deck.id,
+                            deckId: item.id,
                             
                           })}
                           style={styles.touchbtn}
                         >
-                        <Text style={styles.cardText}> {deck.title}</Text>
-                        <Text style={styles.cardText}>{deck.questions.length}</Text>
+                        <Text style={styles.cardText}> {item.title}</Text>
+                        <Text style={styles.cardText}>{item.questions.length}</Text>
                       
                         </TouchableOpacity>
                       </View>
               )} /> 
- {/*                    <FlatList
-                        data={decks}
-                        renderItem={({ item }) => (
-                          <TouchableOpacity
-                            key={item.id}
-                            onPress={() =>
-                              this.props.navigation.navigate('DeckDetail', {
-                                deckId: item.id,
-                              })
-                            }
-                          >
-                           
-                          </TouchableOpacity>
-                        )}
-        /> */}
+ 
 
    {/*     {
               Object.keys(decks).map((deck) => {
@@ -116,7 +102,7 @@ import { orange, white } from '../utils/colors';
 
     })
   function mapStateToProps( decks ) {
-      const dataArray = Object.keys(decks).map(key => {
+      const data = Object.keys(decks).map(key => {
       
         return {
             id: key,
@@ -127,7 +113,7 @@ import { orange, white } from '../utils/colors';
         })
 
     return {       
-      decks:dataArray
+      decks:data
     }
   }
   

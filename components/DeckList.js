@@ -17,32 +17,47 @@ import { orange, white } from '../utils/colors';
       render(){
      
         const {decks} =this.props
-        console.log("decks list",decks)
+        console.log("decks data",decks)
           return(
             <View style={styles.cardContainer}>
-          {/*     <FlatList
-              data= {Object.keys(decks)}
-              renderItem= {({deck})=> (
-                <View key={deck}  style={styles.card}>
-                <TouchableOpacity  onPress={() =>
-                 
-                  this.props.navigation.navigate('DeckDetails', {
-                    deckId: deck,
-                    
-                  })}
-                  style={styles.touchbtn}
-                >
-                 <Text style={styles.cardText}> {decks[deck].title}</Text>
-                 <Text style={styles.cardText}>{decks[deck].questions.length}</Text>
-               
-                 </TouchableOpacity>
-              </View>
+      <FlatList
+              data= {decks}
+              renderItem= {({deck}) => (
+                        <View  style={styles.card}>
+                        <TouchableOpacity  onPress={() =>
+                        
+                          this.props.navigation.navigate('DeckDetails', {
+                            deckId: deck.id,
+                            
+                          })}
+                          style={styles.touchbtn}
+                        >
+                        <Text style={styles.cardText}> {deck.title}</Text>
+                        <Text style={styles.cardText}>{deck.questions.length}</Text>
+                      
+                        </TouchableOpacity>
+                      </View>
               )
 
               }
-              /> */}
+              /> 
+ {/*                    <FlatList
+                        data={decks}
+                        renderItem={({ item }) => (
+                          <TouchableOpacity
+                            key={item.id}
+                            onPress={() =>
+                              this.props.navigation.navigate('DeckDetail', {
+                                deckId: item.id,
+                              })
+                            }
+                          >
+                           
+                          </TouchableOpacity>
+                        )}
+        /> */}
 
-        {
+   {/*     {
               Object.keys(decks).map((deck) => {
                 const {title, questions} = decks[deck]
                 return (
@@ -65,7 +80,7 @@ import { orange, white } from '../utils/colors';
               
 
               })
-            } 
+            }   */}
            
             </View>
         )
@@ -106,10 +121,23 @@ import { orange, white } from '../utils/colors';
   function mapStateToProps( decks ) {
     //const list  = decks;
     //console.log("list ", list)
+   
+
+const dataArray = Object.keys(decks).map(key => {
+ 
+  return {
+      id: key,
+      key,
+      title: decks[key].title,
+      questions:decks[key].questions
+    }
+})
+
     return {       
-      decks
+      decks:dataArray
     }
   }
+  
   function mapDispatchToProps( dispatch ) {
     return {   
       recicveAllDecks: (prevdecks) => { 

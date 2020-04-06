@@ -1,5 +1,5 @@
 import React from 'react';
-import {  StyleSheet,View, Text,TextInput,TouchableOpacity  } from 'react-native';
+import {  StyleSheet,View, Text,Animated,TouchableOpacity  } from 'react-native';
 import MainStyle from '../styles/MainStyle'
 import { connect } from 'react-redux'
 import { white,orange,red ,purple,green }   from '../utils/colors'
@@ -14,11 +14,13 @@ class Quiz extends React.Component{
       showQuestion:false, 
       correct:0,
       incorrect:0,   
+      animation: new Animated.Value(0),
       }
       this.showanswer=this.showanswer.bind(this); 
       this.submitanswer=this.submitanswer.bind(this); 
       this.tryAgain= this.tryAgain.bind(this);
       this.goback= this.goback.bind(this);
+      this.handelanimation=this.handelanimation.bind(this)
 }
 goback = () =>{
   const {goBack} = this.props;
@@ -37,7 +39,7 @@ tryAgain = () =>{
   this.setState({ incorrect:false})
 }
 submitanswer = (answer) => {
-  debugger;
+ this.handelanimation()
   const {questionnumber,showQuestion,correct,incorrect}= this.state;
   const questionnumbefor =questionnumber
   const {decks,deckId} = this.props;
@@ -45,7 +47,7 @@ submitanswer = (answer) => {
  
   
   
-  if(answer === correctanswer){
+  if(answer.trim() === correctanswer.trim()){
      this.setState({correct:correct+1})
   }
   else{
@@ -56,22 +58,40 @@ submitanswer = (answer) => {
   this.setState({ showQuestion:false})
 
 }
+handelanimation = () => {
+  Animated.sequence([
+    Animated.timing(this.state.animation, { duration: 200, toValue: 1.04}),
+    Animated.spring(this.state.animation, { toValue: 1.5, friction: 4})
+  ]).start()
+  // Will change fadeAnim value to 1 in 5 seconds
+/*   Animated.timing(this.state.animation, {
+    toValue: 1,
+    duration: 6000
+  }).start(); */
+};
+
   render(){
  debugger;
     const {decks,deckId} = this.props
-    const {questionnumber,showQuestion,correct,incorrect}= this.state
+    const {questionnumber,showQuestion,correct,incorrect,animation}= this.state
     const currentquestionnumber = questionnumber + 1
+  
    //console.log("question text", decks[deckId].questions[questionnumber].question)
     if (questionnumber === decks[deckId].questions.length) {
       return (
         <View  style={styles.cardContainer}>
           <View style={styles.card}>
-      <Text style={styles.resulttext}>you got {correct} out of {decks[deckId].questions.length} 
+            <Animated.View    style={[{
+              opacity: animation
+            },{transform: [{scale: animation}]}]
+          }>
+           <Text style={styles.resulttext}>you got {correct} out of {decks[deckId].questions.length} !  </Text>
+            </Animated.View>
       {
-        correct > incorrect? <Text >🤩</Text> :
-                              <Text><Emoji name="anguished" style={{fontSize: 20}} /> </Text>
-      } !
-      </Text>
+        correct > incorrect? <Text style={{fontSize: 30,fontColor:{white}}} >🤩</Text> :
+                              <Text style={{fontSize: 30,fontColor:{white}}}><Emoji name="anguished" style={{fontSize: 30}} /> </Text>
+      } 
+     
       <DeckButton  onPress={() => this.tryAgain()}
                         styles={styles}
                         text="Try Again"
@@ -90,9 +110,12 @@ submitanswer = (answer) => {
           <View style={styles.card} >
               <Text style={styles.questionNumber}>{currentquestionnumber }/ {decks[deckId].questions.length}</Text>
               { !showQuestion? 
-           
-              <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].question}</Text> :
+              <Animated.View  style={[{ opacity: animation },{transform: [{scale: animation}]}] }>
+              <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].question}</Text>
+              </Animated.View> :
+               <Animated.View  style={[{ opacity: animation },{transform: [{scale: animation}]}] }>
               <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].answer}</Text>
+              </Animated.View>
               }
                 {!showQuestion? 
                  <TouchableOpacity onPress={ this.showanswer} >

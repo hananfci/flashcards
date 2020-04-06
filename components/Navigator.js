@@ -50,7 +50,7 @@ class Navigator extends Component  {
         }
         )
       }
-       
+    
         tabBarOptions={{
           tintColor:gray,
           activeTintColor: purple,

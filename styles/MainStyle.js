@@ -16,8 +16,10 @@ export default  StyleSheet.create({
       margin:40,
     },
     addCardTitle: {
-      fontSize:20,
-      color:'#333'
+      fontSize:23,
+      color:'#333',
+      fontWeight:'bold'
+
     },
     submit: {
       borderWidth:0.5,

@@ -4,6 +4,7 @@ import MainStyle from '../styles/MainStyle'
 import { connect } from 'react-redux'
 import { white,orange,red ,purple,green }   from '../utils/colors'
 import DeckButton from './DeckButton'
+import Emoji from 'react-native-emoji';
 
 class Quiz extends React.Component{
   constructor(props) {
@@ -16,6 +17,12 @@ class Quiz extends React.Component{
       }
       this.showanswer=this.showanswer.bind(this); 
       this.submitanswer=this.submitanswer.bind(this); 
+      this.tryAgain= this.tryAgain.bind(this);
+      this.goback= this.goback.bind(this);
+}
+goback = () =>{
+  const {goBack} = this.props;
+  goBack();
 }
 showanswer = ( ) =>{
   const {showQuestion}= this.state
@@ -23,9 +30,15 @@ showanswer = ( ) =>{
      !showQuestion ? this.setState({showQuestion:true}):this.setState({showQuestion:false})
    }
 }
+tryAgain = () =>{
+  this.setState({ showQuestion:false})
+  this.setState({ questionnumber:0})
+  this.setState({ correct:0})
+  this.setState({ incorrect:false})
+}
 submitanswer = (answer) => {
   debugger;
-  const {questionnumber,showQuestion,correct,incorrect,showresult}= this.state;
+  const {questionnumber,showQuestion,correct,incorrect}= this.state;
   const questionnumbefor =questionnumber
   const {decks,deckId} = this.props;
   const correctanswer = decks[deckId].questions[questionnumber].correctAnswer.toLowerCase(); 
@@ -48,51 +61,53 @@ submitanswer = (answer) => {
     const {decks,deckId} = this.props
     const {questionnumber,showQuestion,correct,incorrect}= this.state
     const currentquestionnumber = questionnumber + 1
-   
-    if(questionnumber === decks[deckId].questions.length){
-     
+   //console.log("question text", decks[deckId].questions[questionnumber].question)
+    if (questionnumber === decks[deckId].questions.length) {
       return (
-        <View>
-          <View>
-      <Text>you got {correct}out of {decks[deckId].questions.length}! </Text>
+        <View  style={styles.cardContainer}>
+          <View style={styles.card}>
+      <Text style={styles.resulttext}>you got {correct} out of {decks[deckId].questions.length} 
       {
-      correct> incorrect? <Text>good</Text>
-                            :
-                            <Text>bad</Text>
-      }
+        correct > incorrect? <Text >🤩</Text> :
+                              <Text><Emoji name="anguished" style={{fontSize: 20}} /> </Text>
+      } !
+      </Text>
+      <DeckButton  onPress={() => this.tryAgain()}
+                        styles={styles}
+                        text="Try Again"
+                        color={green}/>
+            <DeckButton onPress={() => this.goback()}
+                        styles={styles}
+                        text="Back"
+                        color={red}/>
           </View>
         </View>
-      )
-          
+      )          
     }
       return(
       
         <View style={[styles.cardContainer]}>
           <View style={styles.card} >
               <Text style={styles.questionNumber}>{currentquestionnumber }/ {decks[deckId].questions.length}</Text>
-              {!showQuestion? 
-              <View>
-              <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].question}</Text>
-              <Text>questionnumber: {questionnumber}</Text>
-              <Text>showresult: {showresult}</Text>
-              </View>
-              :
+              { !showQuestion? 
+           
+              <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].question}</Text> :
               <Text style={styles.questionText}>{decks[deckId].questions[questionnumber].answer}</Text>
               }
                 {!showQuestion? 
-                 <TouchableOpacity onPress={() => this.showanswer('true')} >
+                 <TouchableOpacity onPress={ this.showanswer} >
                    <Text style={styles.btnAnswertext}>Show Answer</Text>
                 </TouchableOpacity>:
-                <TouchableOpacity onPress={() => this.showanswer('false')}>
+                <TouchableOpacity onPress={ this.showanswer}>
                   <Text style={styles.btnAnswertext}>Show Question</Text>
                 </TouchableOpacity>
               }
            
-              <DeckButton  onPress={this.submitanswer}
+              <DeckButton  onPress={() => this.submitanswer('true')}
                         styles={styles}
                         text="Correct"
                         color={green}/>
-            <DeckButton onPress={this.submitanswer}
+            <DeckButton onPress={() => this.submitanswer('false')}
                         styles={styles}
                         text="Incorrect"
                         color={red}/>
@@ -170,6 +185,12 @@ const styles= StyleSheet.create({
       margin:20,
 
   },
+  resulttext:{
+    color:white,
+    fontSize:25,
+    textAlign:'center',
+    margin:20,
+  }
  
 })
 function mapStateToProps(decks, { route }) {
@@ -180,7 +201,11 @@ function mapStateToProps(decks, { route }) {
     deckId
   }}
   
- 
-export default connect(mapStateToProps,null)(Quiz)
+  function mapDispatchToProps (dispatch, { route,navigation  }) {
+    return {
+      goBack: () => navigation.goBack(),
+    }
+    }
+export default connect(mapStateToProps,mapDispatchToProps)(Quiz)
 
   

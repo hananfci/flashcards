@@ -25,7 +25,7 @@ import { white,orange }   from '../utils/colors'
           return(
             <View style={MainStyle.container}>
                      <Text style={MainStyle.addCardTitle}>What's the new  Deck's Name</Text>
-                     <TextInput  style={MainStyle.input}
+                     <TextInput  style={[MainStyle.input,styles.textinput]}
                      placeholder="the new  Deck's Name"
                      onChangeText ={(deckName) => this.setState({deckName})}
                      value= {this.state.text}
@@ -48,12 +48,16 @@ import { white,orange }   from '../utils/colors'
         textAlign:'center'
     },
     btnSubmit: {
-        borderWidth:8.5,
+        borderWidth:4,
         borderColor:"#d6d7da",
         padding:10,
         backgroundColor:orange,
-        borderRadius:7,
+        borderRadius:4,
         overflow:"hidden"
+    },
+    textinput:{
+      padding:10,
+      fontSize:20,
     }
   })
   function mapDispatchToProps( dispatch ) {

@@ -37,10 +37,7 @@ import { orange, white } from '../utils/colors';
                       
                         </TouchableOpacity>
                       </View>
-              )
-
-              }
-              /> 
+              )} /> 
  {/*                    <FlatList
                         data={decks}
                         renderItem={({ item }) => (
@@ -119,19 +116,15 @@ import { orange, white } from '../utils/colors';
 
     })
   function mapStateToProps( decks ) {
-    //const list  = decks;
-    //console.log("list ", list)
-   
-
-const dataArray = Object.keys(decks).map(key => {
- 
-  return {
-      id: key,
-      key,
-      title: decks[key].title,
-      questions:decks[key].questions
-    }
-})
+      const dataArray = Object.keys(decks).map(key => {
+      
+        return {
+            id: key,
+            key,
+            title: decks[key].title,
+            questions:decks[key].questions
+          }
+        })
 
     return {       
       decks:dataArray
